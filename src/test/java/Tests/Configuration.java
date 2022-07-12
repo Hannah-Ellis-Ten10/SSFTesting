@@ -1,6 +1,8 @@
 package Tests;
 
 import PageObjects.*;
+import io.netty.util.internal.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.*;
 import org.openqa.selenium.WebDriver;
 
@@ -66,6 +68,20 @@ public class Configuration {
         Assert.assertEquals(0,homepage.getNumberOfBehavioursSet());
     }
 
+    @Test @Ignore
+    public void numberOfCharactersShouldBeLimited(){
+        /***************************
+         This is testcase TC_024 for more details see https://docs.google.com/spreadsheets/d/1soyGJr5iF8xhKIVguclqZ68rI2IGdrIJz9fHYuiqjwY/edit#gid=817349775
+         ***************************/
+        homepage.addNewBehaviour();
+        behaviourPage.setBehaviours(new CardNumberTrigger(StringUtils.repeat('a',31), TriggerRequestType.ANY),
+                new CustomTextResponse("This is a description",
+                        "This is my response...."));
+        behaviourPage.save();
+        //we expect some sort of validation will stop us from adding a new behavaiour,
+        //so we expect the number of behaviours to stay at 0
+        Assert.assertEquals(0,homepage.getNumberOfBehavioursSet());
+    }
     @Test @Ignore
     public void shouldNotBeAbleToInputJustNumbersInTheNameSection(){
         /***************************
