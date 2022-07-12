@@ -1,9 +1,6 @@
 package Tests;
 
-import PageObjects.AnyTrigger;
-import PageObjects.BehaviourPage;
-import PageObjects.ConfigurationPage;
-import PageObjects.CustomTextResponse;
+import PageObjects.*;
 import org.junit.*;
 import org.openqa.selenium.WebDriver;
 
@@ -26,30 +23,47 @@ public class Configuration {
 
     @Test
     public void userCanAddNewBehaviour(){
+        /***************************
+         This is testcase TC_002 for more details see https://docs.google.com/spreadsheets/d/1soyGJr5iF8xhKIVguclqZ68rI2IGdrIJz9fHYuiqjwY/edit#gid=817349775
+         ***************************/
+
         //check that there are no existing behaviours - this is a precondition
-        Assert.assertEquals(homepage.getNumberOfBehavioursSet(),0);
+        Assert.assertEquals(0,homepage.getNumberOfBehavioursSet());
         homepage.addNewBehaviour();
         behaviourPage.setBehaviours(new AnyTrigger(),new CustomTextResponse("This is a description","This is my response...."));
         behaviourPage.save();
         //expect there to be a new behaviour in the table
-        Assert.assertEquals(homepage.getNumberOfBehavioursSet(),1);
+        Assert.assertEquals(1,homepage.getNumberOfBehavioursSet());
     }
 
     @Test
     public void userCanRemoveABehaviour(){
+        /***************************
+         This is testcase TC_003 for more details see https://docs.google.com/spreadsheets/d/1soyGJr5iF8xhKIVguclqZ68rI2IGdrIJz9fHYuiqjwY/edit#gid=817349775
+         ***************************/
         homepage.addNewBehaviour();
         behaviourPage.setBehaviours(new AnyTrigger(),new CustomTextResponse("This is a description","This is my response...."));
         behaviourPage.save();
         //check that there is 1 existing behaviours - this is a precondition
-        Assert.assertEquals(homepage.getNumberOfBehavioursSet(),1);
+        Assert.assertEquals(1,homepage.getNumberOfBehavioursSet());
         homepage.clearAllBehaviours();
         //check that there is now 0 existing behaviours
-        Assert.assertEquals(homepage.getNumberOfBehavioursSet(),0);
+        Assert.assertEquals(0,homepage.getNumberOfBehavioursSet());
     }
 
-    @After
-    public void tearDown(){
-
+    @Test @Ignore
+    public void userShouldNotBeAbleToAddTextForACardNumberTrigger(){
+        /***************************
+         This is testcase TC_004 for more details see https://docs.google.com/spreadsheets/d/1soyGJr5iF8xhKIVguclqZ68rI2IGdrIJz9fHYuiqjwY/edit#gid=817349775
+         ***************************/
+        homepage.addNewBehaviour();
+        behaviourPage.setBehaviours(new CardNumberTrigger("aaaaaaaaaaaaa",CardNumberTriggerType.ANY),
+                new CustomTextResponse("This is a description",
+                        "This is my response...."));
+        behaviourPage.save();
+        //we expect some sort of validation will stop us from adding a new behavaiour,
+        //so we expect the number of behaviours to stay at 0
+        Assert.assertEquals(0,homepage.getNumberOfBehavioursSet());
     }
 
     @AfterClass
