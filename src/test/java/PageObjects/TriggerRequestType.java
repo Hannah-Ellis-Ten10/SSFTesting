@@ -1,12 +1,12 @@
 package PageObjects;
 
-public enum CardNumberTriggerType {
+public enum TriggerRequestType {
     ANY,
     AUTH,
     VERIFY_ENROLLED,
     VERIFY_SIG,
     VOID;
-    public static String getSelectionText(CardNumberTriggerType type){
+    public static String getSelectionText(TriggerRequestType type){
         switch (type){
             case ANY:
                 return "any";

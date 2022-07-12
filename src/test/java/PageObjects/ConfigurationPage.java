@@ -35,14 +35,17 @@ public class ConfigurationPage extends BasePage{
 
     public void clearAllBehaviours(){
         try {
-            final List<WebElement> tableRows = getBehaviourTableRows();
-            if(tableRows.size() != 0) {
-                tableRows.forEach(row -> {
-                    row.click();
-                    waitAndClick(REMOVE_BUTTON);
-                    waitAndClick(CONFIRM_DELETE_BUTTON);
-                });
+            do {
+                final List<WebElement> tableRows = getBehaviourTableRows();
+                if (tableRows.size() != 0) {
+                    tableRows.forEach(row -> {
+                        row.click();
+                        waitAndClick(REMOVE_BUTTON);
+                        waitAndClick(CONFIRM_DELETE_BUTTON);
+                    });
+                }
             }
+            while(getNumberOfBehavioursSet() != 0);
         }
         catch( NoSuchElementException e){
             //don't really care maybe just a little warning message

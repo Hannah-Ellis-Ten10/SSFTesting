@@ -9,7 +9,7 @@ import static Tests.TestSuite.driverFactory;
 public class Configuration {
 
     private static WebDriver driver = driverFactory.getDriver();
-    private static final String ip = "http://35.177.16.31";
+    private static final String ip = "http://18.134.130.35";
     private static final int port = 8080;
 
 
@@ -57,7 +57,22 @@ public class Configuration {
          This is testcase TC_004 for more details see https://docs.google.com/spreadsheets/d/1soyGJr5iF8xhKIVguclqZ68rI2IGdrIJz9fHYuiqjwY/edit#gid=817349775
          ***************************/
         homepage.addNewBehaviour();
-        behaviourPage.setBehaviours(new CardNumberTrigger("aaaaaaaaaaaaa",CardNumberTriggerType.ANY),
+        behaviourPage.setBehaviours(new CardNumberTrigger("aaaaaaaaaaaaa", TriggerRequestType.ANY),
+                new CustomTextResponse("This is a description",
+                        "This is my response...."));
+        behaviourPage.save();
+        //we expect some sort of validation will stop us from adding a new behavaiour,
+        //so we expect the number of behaviours to stay at 0
+        Assert.assertEquals(0,homepage.getNumberOfBehavioursSet());
+    }
+
+    @Test @Ignore
+    public void shouldNotBeAbleToInputJustNumbersInTheNameSection(){
+        /***************************
+         This is testcase TC_025 for more details see https://docs.google.com/spreadsheets/d/1soyGJr5iF8xhKIVguclqZ68rI2IGdrIJz9fHYuiqjwY/edit#gid=817349775
+         ***************************/
+        homepage.addNewBehaviour();
+        behaviourPage.setBehaviours(new NameOfCardHolderTrigger("00000000000000000000", TriggerRequestType.ANY),
                 new CustomTextResponse("This is a description",
                         "This is my response...."));
         behaviourPage.save();
